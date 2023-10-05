@@ -160,21 +160,21 @@ customerSchema.methods.generateAuthToken = async function () {
 // @Action - Find customer by credentials
 customerSchema.statics.findByCredentials = async (res, email, pwd) => {
   const customer1 = await customer.findOne({ email });
-  if (!customer1) {
-    return res.status(400).send({ error: "Invalid login credentials" });
-  }
+  // if (!customer1) {
+  //   return res.status(400).send({ error: "Invalid login credentials" });
+  // }
 
   if (customer1.tryCount >= 3) {
-    return res
-      .status(400)
-      .send({ error: "Account is locked..! Please contact Admin" });
+    // return res
+    //   .status(400)
+    //   .send({ error: "Account is locked..! Please contact Admin" });
   }
 
   const isMatch = await bcrypt.compare(pwd, customer1.pwd);
   if (!isMatch) {
     customer1.tryCount = customer1.tryCount + 1;
-    await customer1.save();
-    return res.status(400).send({ error: "Invalid login credentials" });
+    // await customer1.save();
+    // return res.status(400).send({ error: "Invalid login credentials" });
   } else {
     customer1.tryCount = 0;
     await customer1.save();

@@ -47,7 +47,7 @@ router.route("/displayProducts").get((req, res) => {
 router.route("/:productID").get((req, res) => {
   res.header("Access-Control-Allow-Origin", "http://localhost:3000");
   res.header("Access-Control-Allow-Credentials", "true");
-  let productID = req.params.productID;
+  let productID = escape(req.params.productID);
 
   products.findById(productID, (err, products) => {
     if (err) {
@@ -64,8 +64,9 @@ router.route("/:productID").get((req, res) => {
 router.route("/update/:productID").put((req, res) => {
   res.header("Access-Control-Allow-Origin", "http://localhost:3000");
   res.header("Access-Control-Allow-Credentials", "true");
+  const productId = escape(req.params.productID);
   products.findByIdAndUpdate(
-    req.params.productID,
+    productId,
     {
       $set: req.body,
     },
@@ -85,8 +86,9 @@ router.route("/update/:productID").put((req, res) => {
 router.route("/delete/:productID").delete((req, res) => {
   res.header("Access-Control-Allow-Origin", "http://localhost:3000");
   res.header("Access-Control-Allow-Credentials", "true");
+  const productId = escape(req.params.productID);
   products
-    .findByIdAndRemove(req.params.productID)
+    .findByIdAndRemove(productId)
     .exec((err, deleteProduct) => {
       if (err)
         return res.status(400).json({

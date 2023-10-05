@@ -48,8 +48,9 @@ router.route("/displayAds").get((req, res) => {
 router.route("/adupdate/:adID").put((req, res) => {
   res.header("Access-Control-Allow-Origin", "http://localhost:3000");
   res.header("Access-Control-Allow-Credentials", "true");
+  const adId = escape(req.params.adID);
   Ads.findByIdAndUpdate(
-    req.params.adID,
+    adId,
     {
       $set: req.body,
     },
@@ -69,7 +70,8 @@ router.route("/adupdate/:adID").put((req, res) => {
 router.route("/delete/:adID").delete((req, res) => {
   res.header("Access-Control-Allow-Origin", "http://localhost:3000");
   res.header("Access-Control-Allow-Credentials", "true");
-  Ads.findByIdAndRemove(req.params.adID).exec((err, deleteAd) => {
+  const adId = escape(req.params.adID);
+  Ads.findByIdAndRemove(adId).exec((err, deleteAd) => {
     if (err)
       return res.status(400).json({
         message: "Delete Unsuccessfully",
@@ -87,7 +89,7 @@ router.route("/delete/:adID").delete((req, res) => {
 router.route("/:id").get((req, res) => {
   res.header("Access-Control-Allow-Origin", "http://localhost:3000");
   res.header("Access-Control-Allow-Credentials", "true");
-  let adsId = req.params.id;
+  let adsId = escape(req.params.id);
   ads.findById(adsId, (err, ads) => {
     if (err) {
       return res.status(400).json({ success: false, err });

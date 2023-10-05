@@ -55,7 +55,6 @@ router.post("/signup", async (req, res) => {
       customer: newcustomer,
       token: token,
     });
-    console.log(customer1);
   } catch (error) {
     console.log(error.message);
     res.status(500).send({ error: error.message });
@@ -69,8 +68,13 @@ router.post("/login", async (req, res) => {
   res.header("Access-Control-Allow-Credentials", "true");
   try {
     const { email, pwd } = req.body;
-    const Cus = await customer.findByCredentials(email, pwd);
+    const Cus = await customer.findByCredentials(res, email, pwd);
+
     const token = await Cus.generateAuthToken();
+
+    res.cookie("computer", token, {
+      maxAge: 3600000,
+    }); //1 hour
     res.status(200).send({ token: token, Cus: Cus });
   } catch (error) {
     res.status(500).send({ error: error.message });

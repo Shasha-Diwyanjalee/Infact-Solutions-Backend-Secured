@@ -9,7 +9,11 @@ const Product = require("../../models/SS_models/products");
 router.post("/add/:id", auth, async (req, res) => {
   res.header("Access-Control-Allow-Origin", "http://localhost:3000");
   res.header("Access-Control-Allow-Credentials", "true");
-  const productId = req.params.id;
+  const productId = escape(req.params.id);
+  console.log("------------------------------")
+  console.log(productId);
+  console.log("------------------------------")
+
   try {
     const user = await User.findById(req.Cus._id);
     const product = await Product.findById(productId);
@@ -64,7 +68,7 @@ router.get("/display", auth, async (req, res) => {
 router.delete("/delete/:id", auth, async (req, res) => {
   res.header("Access-Control-Allow-Origin", "http://localhost:3000");
   res.header("Access-Control-Allow-Credentials", "true");
-  const itemId = req.params.id;
+  const itemId = escape(req.params.id);
   try {
     const user = await User.findById(req.Cus._id);
     if (!user) {

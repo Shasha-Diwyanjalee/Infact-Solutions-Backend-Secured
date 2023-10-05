@@ -43,7 +43,8 @@ router.route("/update/:id").put(async (req, res) => {
   res.header("Access-Control-Allow-Origin", "http://localhost:3000");
   res.header("Access-Control-Allow-Credentials", "true");
 
-  const discounts = await discount.findById(req.params.id);
+  const discountId = escape(req.params.id);
+  const discounts = await discount.findById(discountId);
   const { ammount } = req.body;
 
   discount.findByIdAndUpdate(
@@ -69,7 +70,8 @@ router.delete("/delete/:id", async (req, res) => {
   res.header("Access-Control-Allow-Origin", "http://localhost:3000");
   res.header("Access-Control-Allow-Credentials", "true");
 
-  const discounts = await discount.findById(req.params.id);
+  const discountId = escape(req.params.id);
+  const discounts = await discount.findById(discountId);
 
   await Product.updateOne({ _id: discounts.itemId }, { offerPrice: 0 });
 
@@ -92,7 +94,7 @@ router.route("/display/:id").get((req, res) => {
   res.header("Access-Control-Allow-Origin", "http://localhost:3000");
   res.header("Access-Control-Allow-Credentials", "true");
 
-  let id = req.params.id;
+  let id = escape(req.params.id);
 
   discount.findById(id, (err, discount) => {
     if (err) {

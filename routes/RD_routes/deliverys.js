@@ -48,7 +48,7 @@ router.route("/displaydeliverys").get((req, res) => {
 router.route("/:deliveryID").get((req, res) => {
   res.header("Access-Control-Allow-Origin", "http://localhost:3000");
   res.header("Access-Control-Allow-Credentials", "true");
-  let deliveryID = req.params.deliveryID;
+  let deliveryID = escape(req.params.deliveryID);
 
   Deliverys.findById(deliveryID, (err, deliverys) => {
     if (err) {
@@ -65,8 +65,9 @@ router.route("/:deliveryID").get((req, res) => {
 router.route("/update/:deliveryID").put((req, res) => {
   res.header("Access-Control-Allow-Origin", "http://localhost:3000");
   res.header("Access-Control-Allow-Credentials", "true");
+  const deliveryId = escape(req.params.deliveryID);
   Deliverys.findByIdAndUpdate(
-    req.params.deliveryID,
+    deliveryId,
     {
       $set: req.body,
     },
@@ -86,7 +87,8 @@ router.route("/update/:deliveryID").put((req, res) => {
 router.route("/delete/:deliveryID").delete((req, res) => {
   res.header("Access-Control-Allow-Origin", "http://localhost:3000");
   res.header("Access-Control-Allow-Credentials", "true");
-  Deliverys.findByIdAndRemove(req.params.deliveryID).exec(
+  const deliveryId = escape(req.params.deliveryID);
+  Deliverys.findByIdAndRemove(deliveryId).exec(
     (err, deleteDelivery) => {
       if (err)
         return res.status(400).json({

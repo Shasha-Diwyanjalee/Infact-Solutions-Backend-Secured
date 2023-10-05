@@ -66,7 +66,7 @@ router.route("/").get(async (req, res) => {
 });
 router.get("/getorder/:id", async (req, res) => {
   try {
-    const order = await Order.findById(req.params.id);
+    const order = await Order.findById(escape(req.params.id));
     res.status(200).send({ status: "order fetched", order: order });
   } catch (error) {
     res.status(500).send({ error: error.message });
@@ -78,7 +78,7 @@ router.get("/getorder/:id", async (req, res) => {
 router.delete("/delete/:id", async (req, res) => {
   res.header("Access-Control-Allow-Origin", "http://localhost:3000");
   res.header("Access-Control-Allow-Credentials", "true");
-  const orderID = req.params.id;
+  const orderID = escape(req.params.id);
   try {
     const deleteOrder = await Order.findByIdAndDelete(orderID);
     res.status(200).send({ status: "Order deleted", order: deleteOrder });

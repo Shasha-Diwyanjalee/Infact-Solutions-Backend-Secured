@@ -9,7 +9,8 @@ const router = express.Router();
 router.post("/add/:productId", auth, async (req, res) => {
   res.header("Access-Control-Allow-Origin", "http://localhost:3000");
   res.header("Access-Control-Allow-Credentials", "true");
-  let productId = req.params.productId;
+  let productId = escape(req.params.productId);
+  
   let { rating, comment } = req.body;
   let date = new Date();
 
@@ -48,7 +49,6 @@ router.post("/add/:productId", auth, async (req, res) => {
         }
         let average = totalRating / feedbackCount;
         let averageRating = Math.round(average * 10) / 10;
-        console.log(averageRating);
         await Product.findOneAndUpdate(
           { _id: productId },
           { averageRating: averageRating }
@@ -56,7 +56,6 @@ router.post("/add/:productId", auth, async (req, res) => {
       } else {
         let average = (totalRating + rating) / feedbackCount;
         let averageRating = Math.round(average * 10) / 10;
-        console.log(averageRating);
         await Product.findOneAndUpdate(
           { _id: productId },
           { averageRating: averageRating }
@@ -78,7 +77,7 @@ router.post("/add/:productId", auth, async (req, res) => {
 router.get("/read/:productId", async (req, res) => {
   res.header("Access-Control-Allow-Origin", "http://localhost:3000");
   res.header("Access-Control-Allow-Credentials", "true");
-  const productId = req.params.productId;
+  const productId = escape(req.params.productId);
 
   try {
     let number = 0;
@@ -158,8 +157,8 @@ router.get("/read/:productId", async (req, res) => {
 router.put("/update/:productId/:feedbackID", auth, async (req, res) => {
   res.header("Access-Control-Allow-Origin", "http://localhost:3000");
   res.header("Access-Control-Allow-Credentials", "true");
-  const productId = req.params.productId;
-  const feedbackID = req.params.feedbackID;
+  const productId = escape(req.params.productId);
+  const feedbackID = escape(req.params.feedbackID);
   const { rating, comment } = req.body;
 
   try {
@@ -188,7 +187,6 @@ router.put("/update/:productId/:feedbackID", auth, async (req, res) => {
         }
         let average = totalRating / feedbackCount;
         let averageRating = Math.round(average * 10) / 10;
-        console.log(averageRating);
         await Product.findOneAndUpdate(
           { _id: productId },
           { averageRating: averageRating }
@@ -196,7 +194,6 @@ router.put("/update/:productId/:feedbackID", auth, async (req, res) => {
       } else {
         let average = (totalRating + rating) / feedbackCount;
         let averageRating = Math.round(average * 10) / 10;
-        console.log(averageRating);
         await Product.findOneAndUpdate(
           { _id: productId },
           { averageRating: averageRating }
@@ -219,8 +216,8 @@ router.put("/update/:productId/:feedbackID", auth, async (req, res) => {
 router.delete("/delete/:productId/:feedbackID", auth, async (req, res) => {
   res.header("Access-Control-Allow-Origin", "http://localhost:3000");
   res.header("Access-Control-Allow-Credentials", "true");
-  const productId = req.params.productId;
-  const feedbackID = req.params.feedbackID;
+  const productId = escape(req.params.productId);
+  const feedbackID = escape(req.params.feedbackID);
 
   try {
     const user = await User.findOne({ email: req.Cus.email });
@@ -251,7 +248,6 @@ router.delete("/delete/:productId/:feedbackID", auth, async (req, res) => {
           }
           let average = totalRating / feedbackCount;
           let averageRating = Math.round(average * 10) / 10;
-          console.log(averageRating);
           await Product.findOneAndUpdate(
             { _id: productId },
             { averageRating: averageRating }
@@ -259,7 +255,6 @@ router.delete("/delete/:productId/:feedbackID", auth, async (req, res) => {
         } else {
           let average = (totalRating + rating) / feedbackCount;
           let averageRating = Math.round(average * 10) / 10;
-          console.log(averageRating);
           await Product.findOneAndUpdate(
             { _id: productId },
             { averageRating: averageRating }

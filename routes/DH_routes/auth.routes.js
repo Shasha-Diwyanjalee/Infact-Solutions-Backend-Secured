@@ -14,7 +14,6 @@ AuthRouter.get(
   (req, res) => {
     const token = helperUtil.createToken(req.user);
 
-    console.log(token);
     res.cookie("computer", token, {
       maxAge: 3600000,
     }); // Store JWT in a cookie

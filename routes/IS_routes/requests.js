@@ -74,7 +74,7 @@ router.get("/myrequests", auth, async (req, res) => {
 router.post("/update/:id", async (req, res) => {
   res.header("Access-Control-Allow-Origin", "http://localhost:3000");
   res.header("Access-Control-Allow-Credentials", "true");
-  const Id = req.params.id;
+  const Id = escape(req.params.id);
   try {
     const { itemname, brand, model, version, userEmail } = req.body;
     const updateValues = {
@@ -99,7 +99,7 @@ router.post("/update/:id", async (req, res) => {
 router.delete("/delete/:id", async (req, res) => {
   res.header("Access-Control-Allow-Origin", "http://localhost:3000");
   res.header("Access-Control-Allow-Credentials", "true");
-  const reqID = req.params.id;
+  const reqID = escape(req.params.id);
   try {
     const deleteRequest = await Requests.findByIdAndDelete(reqID);
     res

@@ -8,6 +8,10 @@ require("dotenv").config();
 const passport = require("passport");
 const session = require("express-session");
 const cookieParser = require("cookie-parser");
+const mongoSanitize = require("express-mongo-sanitize");
+const xss = require("xss-clean");
+const helmet = require("helmet");
+
 
 require("./utils/auth.config");
 const PORT = process.env.PORT || 8070;
@@ -20,6 +24,20 @@ app.use(
     parameterLimit: 50000,
   })
 );
+
+//Sanitize data
+app.use(
+  mongoSanitize({
+    replaceWith: "_",
+    allowDots: true,
+  })
+);
+
+//Prevent XSS attacks
+app.use(xss());
+
+// Use Helmet!
+app.use(helmet());
 
 const allowedOrigins = ["http://localhost:3000"];
 
