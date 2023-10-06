@@ -1,71 +1,63 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const productSchema = new mongoose.Schema({
+  productName: {
+    type: String,
+    required: [true, "Product name is required"],
+  },
+  quantity: {
+    type: Number,
+    required: [true, "Quantity is required"],
+  },
 
-    productName:{
-        type: String,
-        required: true,
-    }, 
-    quantity: {
-        type: Number,
-        required: true,
-    },
+  originalTitle: {
+    type: String,
+    required: [true, "Original title is required"],
+  },
 
-    originalTitle:{
-        type: String,
-        required: true,
-    },
-    
-    productPrice:{
-        type: Number,
-        required: false,
-    },
-   
-    marketPrice:{
-        type: Number,
-        required: false,
-    },
+  productPrice: {
+    type: Number,
+  },
 
-    brandName: {
-        type: String,
-        required: true,
-    },
+  marketPrice: {
+    type: Number,
+  },
 
-    warrantYear: {
-        type: String,
-        required: true,
-    },
+  brandName: {
+    type: String,
+    required: [true, "Brand name is required"],
+  },
 
-    version: {
-        type: String,
-        required: true,
-    } ,
+  warrantYear: {
+    type: String,
+    required: [true, "Warrant year is required"],
+  },
 
-    description:{
-        type: String,
-        required: false,
-    },
-    
-    coverImage: {
-        type: String,
-        required: true,
-    },
-    availability:{
-        type: String,
-        required: true,
-    },
+  version: {
+    type: String,
+    required: [true, "Version is required"],
+  },
 
-    averageRating: {   
-     type: Number,  
-    },
+  description: {
+    type: String,
+  },
 
-    offerPrice :{
-       type: Number,
-       required: false,
-       default : 0
+  coverImage: {
+    type: String,
+    required: [true, "Cover image is required"],
+  },
+  availability: {
+    type: String,
+    required: [true, "Availability is required"],
+  },
 
-    }
+  averageRating: {
+    type: Number,
+  },
 
+  offerPrice: {
+    type: Number,
+    default: 0,
+  },
 });
 
-module.exports = mongoose.model('Products', productSchema);
-
+module.exports = mongoose.model("Products", productSchema);

@@ -12,7 +12,7 @@ const customerSchema = new mongoose.Schema({
   },
   name: {
     type: String,
-    required: true,
+    required: [true, "Name is required"],
     trim: true,
   },
   add1: {
@@ -74,6 +74,10 @@ const customerSchema = new mongoose.Schema({
   imageUrl: {
     type: String,
   },
+  role: {
+    type: String,
+    default: "Customer",
+  },
 
   wishList: [
     {
@@ -84,15 +88,15 @@ const customerSchema = new mongoose.Schema({
       },
       productName: {
         type: String,
-        require: true,
+        require: [true, "Product name is required"],
       },
       productPrice: {
         type: String,
-        required: true,
+        required: [true, "Product price is required"],
       },
       coverImage: {
         type: String,
-        required: false,
+        required: [true, "Cover image is required"],
       },
     },
   ],
@@ -106,80 +110,36 @@ const customerSchema = new mongoose.Schema({
       },
       productname: {
         type: String,
-        require: true,
+        required: [true, "Product name is required"],
       },
       productPrice: {
         type: Number,
-        required: true,
+        required: [true, "Product price is required"],
       },
       quantity: {
         type: Number,
-        required: true,
+        required: [true, "Quantity is required"],
       },
       productImage: {
         type: String,
-        required: false,
+        required: [true, "Product image is required"],
       },
       totalPrice: {
         type: Number,
-        required: true,
+        required: [true, "Total price is required"],
       },
     },
   ],
 
-  tokens: [
-    {
-      token: {
-        type: String,
-        required: true,
-      },
-    },
-  ],
+  // tokens: [
+  //   {
+  //     token: {
+  //       type: String,
+  //       required: true,
+  //     },
+  //   },
+  // ],
 });
-
-// @Action - encrypt the password
-customerSchema.pre("save", async function (next) {
-  if (!this.isModified("pwd")) {
-    next();
-  }
-  const salt = await bcrypt.genSalt(8);
-  this.pwd = await bcrypt.hash(this.pwd, salt);
-});
-
-// @Action - Get auth token
-customerSchema.methods.generateAuthToken = async function () {
-  const customer = this;
-  const token = jwt.sign({ _id: customer._id }, process.env.JWT_SECRET, {
-    expiresIn: "2d",
-  });
-  customer.tokens = customer.tokens.concat({ token });
-  await customer.save();
-  return token;
-};
-
-// @Action - Find customer by credentials
-customerSchema.statics.findByCredentials = async (res, email, pwd) => {
-  const customer1 = await customer.findOne({ email });
-  if (!customer1) {
-    throw new Error("Invalid login credentials")
-  }
-
-  if (customer1.tryCount >= 3) {
-    throw new Error("Account is locked..! Please contact Admin")
-  }
-
-  const isMatch = await bcrypt.compare(pwd, customer1.pwd);
-  console.log(isMatch)
-  if (!isMatch) {
-    customer1.tryCount = customer1.tryCount + 1;
-    await customer1.save();
-    throw new Error("Invalid login credentials")
-  } else {
-    customer1.tryCount = 0;
-    await customer1.save();
-  }
-  return customer1;
-};
 
 const customer = mongoose.model("customers", customerSchema);
 

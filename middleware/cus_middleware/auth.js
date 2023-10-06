@@ -6,14 +6,18 @@ const auth = async (req, res, next) => {
   try {
     // const token = req.header("Authorization");
     const token = req.cookies.computer;
-    console.log(token);
     const decode = jwt.verify(token, "jwtSecret");
     const Cus = await customer.findOne({
       _id: decode._id,
     });
     if (!Cus) {
-      throw new Error("Please Authenticate");
+      throw new Error("Your not authorized to access this resource!");
     }
+
+    if (Cus.role != "Customer") {
+      throw new Error("Your not authorized to access this resource!");
+    }
+
     req.token = token;
     req.Cus = Cus;
     next();

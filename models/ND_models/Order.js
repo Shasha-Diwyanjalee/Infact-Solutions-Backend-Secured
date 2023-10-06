@@ -13,44 +13,40 @@ const orderSchema = new mongoose.Schema({
     },
     itemName: {
       type: String,
-      required: true
+      required: [true, "Item name is required"]
     },
     quantity: {
       type: Number,
-      required: true
+      required: [true, "Quantity is required"]
     }
   }],
   customerName: {
     type: String,
-    required: true
+    required: [true, "Customer name is required"]
   },
   customerEmail: {
     type: String,
-    required: true
+    required: [true, "Customer email is required"],
   },
   cutomerAddress: {
     type: String,
-    required: true
+    required: [true, "Customer address is required"],
   },
   totalPrice: {
     type: Number,
-    required: true
+    required: [true, "Total price is required"],
   },
   description: {
     type: String,
-    required: false
   },
   deliveryDate: {
     type: Date,
-    required: false
   },
   handOverDate: {
     type: Date,
-    required: false
   },
   deliverMethod: {
     type: String,
-    required: false
   }
 });
 

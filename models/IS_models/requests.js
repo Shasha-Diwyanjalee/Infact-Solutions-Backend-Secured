@@ -16,20 +16,20 @@ const requestSchema = new mongoose.Schema({
     },*/
     itemname:{
         type: String,
-         required: true,
+         required: [true, "Item name is required"],
      },
      brand:{
           type: String,
-         required: true,
+         required: [true, "Brand is required"]
      },
      model:{
           type: String,
-          required: true,
+          required: [true, "Model is required"]
      },    
        
     version:{
          type: String,
-         required: true,
+         required: [true, "Version is required"],
     },
     userID:{
      type: mongoose.Schema.Types.ObjectId,
@@ -38,7 +38,7 @@ const requestSchema = new mongoose.Schema({
     },
     userName: {
      type: String,
-     required: true
+     required: [true, "User name is required"]
    },
    
    profileImage: {

@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const feedbackSchema = new mongoose.Schema({
     productId: {
         type: mongoose.Schema.Types.ObjectId,
-        required: true,
+        required: [true, "Product ID is required"],
         ref: "products",
       },
       userId: {
@@ -13,23 +13,23 @@ const feedbackSchema = new mongoose.Schema({
       },
       userPicture: {
         type: String,
-        required: true,
+        required: [true, "User picture is required"]
       },
       userName: {
         type: String,
-        required: true,
+        required: [true, "User name is required"]
       },
       rating: {
         type: Number,
-        required: true,
+        required: [true, "Rating is required"]
       },
       comment: {
         type: String,
-        required: true,
+        required: [true, "Comment is required"]
       },
       date: {
           type: String,
-          required: true,
+          required: [true, "Date is required"]
       }
     });
 
