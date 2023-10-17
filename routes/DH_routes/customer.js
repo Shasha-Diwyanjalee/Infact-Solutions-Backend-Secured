@@ -101,6 +101,8 @@ router.post("/login", async (req, res) => {
     customer1.tryCount = 0;
     await customer1.save();
 
+
+    //set the max age and the cookie
     res.cookie("computer", token, {
       maxAge: 3600000,
     }); //1 hour
