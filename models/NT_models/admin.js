@@ -69,13 +69,13 @@ const adminSchema = new mongoose.Schema({
 });
 
 //password encryption
-adminSchema.pre("save", async function (next) {
-  if (!this.isModified("password")) {
-    next();
-  }
-  const salt = await bcrypt.genSalt(8);
-  this.password = await bcrypt.hash(this.password, salt);
-});
+// adminSchema.pre("save", async function (next) {
+//   if (!this.isModified("password")) {
+//     next();
+//   }
+//   const salt = await bcrypt.genSalt(8);
+//   this.password = await bcrypt.hash(this.password, salt);
+// });
 
 adminSchema.methods.generateAuthToken = async function () {
   const admin = this;

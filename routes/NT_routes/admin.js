@@ -27,12 +27,15 @@ router.post("/add", async (req, res) => {
     if (admin1 || admin2) {
       throw new Error("Admin Account Already Exists");
     }
+    const genSalt = await bcrypt.genSalt(Number(process.env.SALT));
+    const hashPassword = await bcrypt.hash(password, genSalt);
+    
     admin1 = {
       fname: fname,
       lname: lname,
       email: email,
       username: username,
-      password: password,
+      password: hashPassword,
       nic: nic,
       description: description,
       profileImage: profileImage,
