@@ -100,6 +100,8 @@ router.post("/login", async (req, res) => {
     customer1.tryCount = 0;
     await customer1.save();
 
+
+    //set the max age and the cookie
     res.cookie("computer", token, {
       maxAge: 3600000,
     }); //1 hour
@@ -133,7 +135,7 @@ router.get("/profile", auth, async (req, res) => {
   res.header("Access-Control-Allow-Origin", "http://localhost:3000");
   res.header("Access-Control-Allow-Credentials", "true");
   try {
-    res.status(201).send({ status: "customer logged in", Cus: req.Cus });
+    res.status(201).send({ status: "Profile fetched", Cus: req.Cus });
   } catch (error) {
     res
       .status(500)

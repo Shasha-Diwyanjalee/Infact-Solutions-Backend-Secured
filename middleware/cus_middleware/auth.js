@@ -10,6 +10,8 @@ const auth = async (req, res, next) => {
     const Cus = await customer.findOne({
       _id: decode._id,
     });
+
+    //broken access control
     if (!Cus) {
       throw new Error("Your not authorized to access this resource!");
     }

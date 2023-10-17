@@ -53,9 +53,9 @@ app.use(cors(corsOptions));
 app.use(cookieParser());
 app.use(
   session({
-    secret: process.env.SESSION_SECRET,
-    resave: true,
-    saveUninitialized: true,
+    secret: process.env.SESSION_SECRET, //authenticate a session
+    resave: false, //session never modified during the request
+    saveUninitialized: true, //when a session is created but not modified
   })
 );
 
@@ -78,14 +78,14 @@ connection.once("open", () => {
   console.log("Mongodb connection success!!!");
 });
 
-app.use(cookieParser());
-app.use(
-  session({
-    secret: process.env.SESSION_SECRET,
-    resave: true,
-    saveUninitialized: true,
-  })
-);
+// app.use(cookieParser());
+// app.use(
+//   session({
+//     secret: process.env.SESSION_SECRET,
+//     resave: true,
+//     saveUninitialized: true,
+//   })
+// );
 
 // Initialize Passport.js
 app.use(passport.initialize());
