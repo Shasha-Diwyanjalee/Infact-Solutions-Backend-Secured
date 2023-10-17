@@ -48,6 +48,11 @@ const adminSchema = new mongoose.Schema({
     type: String,
   },
 
+  tryCount: {
+    type: Number,
+    default: 0,
+  },
+
   role: {
     type: String,
     default: "Admin",

@@ -60,7 +60,32 @@ router.post("/login", async (req, res) => {
   res.header("Access-Control-Allow-Credentials", "true");
   try {
     const { username, password } = req.body;
-    const admin1 = await admin.findByCredentials(username, password);
+    //const admin1 = await admin.findByCredentials(username, password);
+
+    const admin1 = await admin.findOne({ username });
+
+    if (!admin1) {
+      return res.status(400).send({ error: "There is no admin account" });
+    }
+
+    if (admin1.tryCount >= 3) {
+      return res.status(400).send({
+        error: "Account is locked..! Please contact Admin",
+      });
+    }
+
+    const isPasswordCheck = await bcrypt.compare(password, admin1.password);
+
+    if (!isPasswordCheck) {
+      admin1.tryCount = admin1.tryCount + 1;
+      await admin1.save();
+
+      return res.status(400).send({ error: "Invalid password" });
+    }
+
+    admin1.tryCount = 0;
+    await admin1.save();
+
     const token = await admin1.generateAuthToken();
     res.status(200).send({ token: token, admin1: admin1 });
   } catch (error) {
