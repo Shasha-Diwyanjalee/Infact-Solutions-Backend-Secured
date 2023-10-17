@@ -134,7 +134,7 @@ router.get("/profile", auth, async (req, res) => {
   res.header("Access-Control-Allow-Origin", "http://localhost:3000");
   res.header("Access-Control-Allow-Credentials", "true");
   try {
-    res.status(201).send({ status: "customer logged in", Cus: req.Cus });
+    res.status(201).send({ status: "Profile fetched", Cus: req.Cus });
   } catch (error) {
     res
       .status(500)
