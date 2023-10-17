@@ -56,7 +56,6 @@ router.post("/signup", async (req, res) => {
     res.status(201).send({
       status: "customer Created",
       customer: newcustomer,
-      token: token,
     });
   } catch (error) {
     console.log(error);
