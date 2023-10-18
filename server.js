@@ -51,11 +51,16 @@ app.use(cors(corsOptions));
 
 // Cookie parser
 app.use(cookieParser());
+
 app.use(
   session({
-    secret: process.env.SESSION_SECRET, //authenticate a session
+    secret: process.env.SESSION_SECRET, //authenticate a session( symmetric key )
     resave: false, //session never modified during the request
-    saveUninitialized: true, //when a session is created but not modified
+    saveUninitialized: true, //when a session is created new but not modified( make multiple parallel requests without a session)
+    cookie: {
+      httpOnly: true, //only allow http requests
+      maxAge: 3600000 // one hour
+    }
   })
 );
 
